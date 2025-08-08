@@ -1,8 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, BookOpen, TrendingUp } from 'lucide-react';
+import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
-
+import Tabs from '../components/ui/Tabs';
+import TaskCard from '../components/task/TaskCard';
+import TaskFilters from '../components/task/TaskFilters';
+import TaskProgress from '../components/task/TaskProgress';
 import { Task, CompetencyLevel } from '../types';
 import { mockTasks, mockUserProgress } from '../ExampleData/Data';
 
@@ -64,8 +68,88 @@ const Tasks: React.FC = () => {
     }
   };
 
+  const handleContinueTask = (taskId: string) => {
+    navigate(`/task/${taskId}/continue`);
+  };
 
-;
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedType('');
+    setSelectedStatus('');
+    setSelectedLevel('');
+    setSelectedDifficulty('');
+    setSortBy('-createdAt');
+  };
+
+  const getTaskStats = () => {
+    const available = mockTasks.filter(t => t.status === 'available').length;
+    const inProgress = mockTasks.filter(t => t.status === 'in-progress').length;
+    const completed = mockTasks.filter(t => t.status === 'completed').length;
+    const total = mockTasks.length;
+
+    return { available, inProgress, completed, total };
+  };
+
+  const stats = getTaskStats();
+
+  const tabs = [
+    {
+      id: 'all',
+      label: 'All Tasks',
+      icon: <BookOpen className="w-4 h-4" />,
+      content: (
+        <div>
+          <TaskFilters
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            selectedType={selectedType}
+            onTypeChange={setSelectedType}
+            selectedStatus={selectedStatus}
+            onStatusChange={setSelectedStatus}
+            selectedLevel={selectedLevel}
+            onLevelChange={setSelectedLevel}
+            selectedDifficulty={selectedDifficulty}
+            onDifficultyChange={setSelectedDifficulty}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            onClearFilters={clearFilters}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredTasks.map(task => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                onStart={handleStartTask}
+                onContinue={handleContinueTask}
+              />
+            ))}
+          </div>
+
+          {filteredTasks.length === 0 && (
+            <div className="text-center py-12">
+              <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No tasks found</h3>
+              <p className="text-gray-600 mb-4">
+                Try adjusting your filters or search query to find tasks.
+              </p>
+              <Button onClick={clearFilters} variant="outline">
+                Clear Filters
+              </Button>
+            </div>
+          )}
+        </div>
+      )
+    },
+    {
+      id: 'progress',
+      label: 'My Progress',
+      icon: <TrendingUp className="w-4 h-4" />,
+      content: (
+        <TaskProgress userProgress={mockUserProgress} />
+      )
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -89,7 +173,7 @@ const Tasks: React.FC = () => {
           </div>
       
         </div>
-=
+
       </div>
     </div>
   );
