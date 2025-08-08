@@ -1,7 +1,7 @@
-const Header = () => {
+const Header = (user:any) => {
    return (
       <div>
-         hello 
+         hello {user}
       </div>
    );
 };
