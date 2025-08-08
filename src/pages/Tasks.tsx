@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, BookOpen, TrendingUp } from 'lucide-react';
 import Card from '../components/ui/Card';
@@ -10,7 +10,7 @@ import TaskProgress from '../components/task/TaskProgress';
 import { Task, CompetencyLevel } from '../types';
 import { mockTasks, mockUserProgress } from '../ExampleData/Data';
 
-const Tasks: React.FC = () => {
+const Tasks= () => {
   const navigate = useNavigate();
   
   // Filter states
@@ -171,9 +171,34 @@ const Tasks: React.FC = () => {
               Start Assessment
             </Button>
           </div>
-      
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <Card className="text-center" padding="sm">
+              <div className="text-2xl font-bold text-blue-600 mb-1">{stats.total}</div>
+              <div className="text-sm text-gray-600">Total Tasks</div>
+            </Card>
+            <Card className="text-center" padding="sm">
+              <div className="text-2xl font-bold text-green-600 mb-1">{stats.available}</div>
+              <div className="text-sm text-gray-600">Available</div>
+            </Card>
+            <Card className="text-center" padding="sm">
+              <div className="text-2xl font-bold text-yellow-600 mb-1">{stats.inProgress}</div>
+              <div className="text-sm text-gray-600">In Progress</div>
+            </Card>
+            <Card className="text-center" padding="sm">
+              <div className="text-2xl font-bold text-purple-600 mb-1">{stats.completed}</div>
+              <div className="text-sm text-gray-600">Completed</div>
+            </Card>
+          </div>
         </div>
 
+        {/* Tabs */}
+        <Tabs
+          tabs={tabs}
+          defaultTab="all"
+          variant="underline"
+        />
       </div>
     </div>
   );
