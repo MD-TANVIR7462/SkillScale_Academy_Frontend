@@ -13,18 +13,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
-export interface Certificate {
-  id: string;
-  userId: string;
-  level: CompetencyLevel;
-  issuedAt: string;
-  validUntil?: string;
-  certificateUrl: string;
-  verificationCode: string;
-  taskId?: string;
-  score: number;
-  percentage: number;
-}
+
 export type UserRole = 'admin' | 'student' | 'supervisor';
 
 // Competency Types
@@ -134,3 +123,94 @@ export interface Achievement {
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
 }
 
+// Certificate Types
+export interface Certificate {
+  id: string;
+  userId: string;
+  level: CompetencyLevel;
+  issuedAt: string;
+  validUntil?: string;
+  certificateUrl: string;
+  verificationCode: string;
+  taskId?: string;
+  score: number;
+  percentage: number;
+}
+
+// Auth Types
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  confirmPassword: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface OTPRequest {
+  email: string;
+  type: 'verification' | 'password-reset';
+}
+
+export interface OTPVerification {
+  email: string;
+  otp: string;
+  type: 'verification' | 'password-reset';
+}
+
+// API Response Types
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  message: string;
+  errors?: string[];
+}
+
+export interface PaginationParams {
+  page: number;
+  limit: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: {
+    current: number;
+    total: number;
+    pages: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
+// Dashboard Types
+export interface DashboardStats {
+  totalUsers: number;
+  activeAssessments: number;
+  completedAssessments: number;
+  certificatesIssued: number;
+  averageScore: number;
+  passRate: number;
+}
+
+export interface AssessmentConfig {
+  timePerQuestion: number; // minutes
+  questionsPerStep: number;
+  passingScore: number; // percentage
+  maxRetries: number;
+  enableSecureBrowser: boolean;
+  enableVideoRecording: boolean;
+}
