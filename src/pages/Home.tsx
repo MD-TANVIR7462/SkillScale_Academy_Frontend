@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Award, Clock, Shield, Users, ArrowRight, Star, TrendingUp } from 'lucide-react';
+import { Award, Clock, Shield, Users, CheckCircle, ArrowRight, Star, TrendingUp } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
-
 
 const Home: React.FC = () => {
   const navigate = useNavigate();

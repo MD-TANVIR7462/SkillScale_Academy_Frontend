@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, BookOpen, TrendingUp } from 'lucide-react';
 import Card from '../components/ui/Card';
@@ -10,7 +10,8 @@ import TaskProgress from '../components/task/TaskProgress';
 import { Task, CompetencyLevel } from '../types';
 import { mockTasks, mockUserProgress } from '../ExampleData/Data';
 
-const Tasks= () => {
+
+const Tasks: React.FC = () => {
   const navigate = useNavigate();
   
   // Filter states
@@ -23,7 +24,7 @@ const Tasks= () => {
 
   // Filter and sort tasks
   const filteredTasks = useMemo(() => {
-    let filtered = mockTasks?.filter(task => {
+    let filtered = mockTasks.filter(task => {
       const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            task.description.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesType = !selectedType || task.type === selectedType;
